@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{{ title or 'CareFlow HMS' }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-icon">+</div>
+        <div>
+          <h2>CareFlow</h2>
+          <p>Hospital System</p>
+        </div>
+      </div>
+
+      <nav>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('patients') }}">Patients</a>
+        <a href="{{ url_for('doctors') }}">Doctors</a>
+        <a href="{{ url_for('appointments') }}">Appointments</a>
+        <a href="{{ url_for('reports') }}">Reports</a>
+      </nav>
+
+      <a class="logout" href="{{ url_for('logout') }}">Logout</a>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div>
+          <h1>{{ title or 'Dashboard' }}</h1>
+        </div>
+        <div class="admin-box">
+          <span>Admin</span>
+          <div class="avatar">A</div>
+        </div>
+      </header>
+
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% block scripts %}{% endblock %}
+
+</body>
+</html>

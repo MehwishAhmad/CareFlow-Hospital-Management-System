@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% set title = 'Doctors Management' %}
+{% block content %}
+<div class="panel">
+  <h2>Add Doctor</h2>
+  <form method="POST" class="grid-form">
+    <input name="name" placeholder="Doctor Name" required>
+    <input name="specialization" placeholder="Specialization" required>
+    <input name="phone" placeholder="Phone">
+    <input name="email" placeholder="Email">
+    <input name="fee" type="number" placeholder="Fee" value="1000">
+    <select name="status"><option>Active</option><option>Inactive</option></select>
+    <button>Add Doctor</button>
+  </form>
+</div>
+<div class="panel">
+  <h2>Doctors List</h2>
+  <form method="GET" class="search-box">
+  <input type="text" name="search" placeholder="Search doctor by name, specialization or phone..." value="{{ search }}">
+  <button type="submit">Search</button>
+  <a class="btn-secondary" href="{{ url_for('doctors') }}">Reset</a>
+</form>
+  <table>
+    <tr><th>Name</th><th>Specialization</th><th>Phone</th><th>Email</th><th>Fee</th><th>Status</th><th>Action</th></tr>
+    {% for d in doctors %}
+    <tr><td>{{ d.name }}</td><td>{{ d.specialization }}</td><td>{{ d.phone }}</td><td>{{ d.email }}</td><td>{{ d.fee }}</td><td>{{ d.status }}</td>
+      <td><a class="btn-small" href="{{ url_for('edit_doctor', id=d.id) }}">Edit</a> | 
+        <a class="delete" href="{{ url_for('delete_item', table='doctors', item_id=d.id) }}">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}

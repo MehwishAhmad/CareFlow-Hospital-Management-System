@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% set title = 'Edit Patient' %}
+
+{% block content %}
+<div class="panel">
+  <h2>Edit Patient</h2>
+
+  <form method="POST" class="grid-form">
+    <input type="text" name="name" value="{{ patient.name }}" required>
+    <input type="number" name="age" value="{{ patient.age }}" required>
+
+    <select name="gender" required>
+      <option value="Male" {% if patient.gender == 'Male' %}selected{% endif %}>Male</option>
+      <option value="Female" {% if patient.gender == 'Female' %}selected{% endif %}>Female</option>
+      <option value="Other" {% if patient.gender == 'Other' %}selected{% endif %}>Other</option>
+    </select>
+
+    <input type="text" name="phone" value="{{ patient.phone }}" required>
+    <input type="text" name="disease" value="{{ patient.disease }}" required>
+
+    <button type="submit">Update Patient</button>
+    <a class="btn-secondary" href="{{ url_for('patients') }}">Cancel</a>
+  </form>
+</div>
+{% endblock %}

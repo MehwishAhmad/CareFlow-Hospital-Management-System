@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% set title = 'Dashboard' %}
+{% block content %}
+<div class="cards">
+  <div class="card"><span>Total Patients</span><strong>{{ stats.patients }}</strong></div>
+  <div class="card"><span>Total Doctors</span><strong>{{ stats.doctors }}</strong></div>
+  <div class="card"><span>Appointments</span><strong>{{ stats.appointments }}</strong></div>
+  <div class="card"><span>Today</span><strong>{{ stats.today }}</strong></div>
+  <div class="card"><span>Revenue</span><strong>PKR {{ '%.0f'|format(stats.revenue) }}</strong></div>
+</div>
+<div class="charts-grid">
+  <div class="panel">
+    <h2>Monthly Patients</h2>
+    <canvas id="patientsChart"></canvas>
+  </div>
+
+  <div class="panel">
+    <h2>Appointments Status</h2>
+    <canvas id="appointmentsChart"></canvas>
+  </div>
+</div>
+<div class="panel">
+  <h2>Recent Appointments</h2>
+  <table>
+    <tr><th>Patient</th><th>Doctor</th><th>Date</th><th>Time</th><th>Status</th><th>Fee</th></tr>
+    {% for a in recent %}
+    <tr><td>{{ a.patient_name }}</td><td>{{ a.doctor_name }}</td><td>{{ a.appointment_date }}</td><td>{{ a.appointment_time }}</td><td><span class="badge {{ a.status|lower }}">{{ a.status }}</span></td><td>{{ a.fee }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+const patientsChart = new Chart(document.getElementById('patientsChart'), {
+  type: 'line',
+  data: {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [{
+      label: 'Patients',
+      data: [12, 19, 15, 25, 22, 30],
+      borderWidth: 3,
+      tension: 0.4
+    }]
+  }
+});
+
+const appointmentsChart = new Chart(document.getElementById('appointmentsChart'), {
+  type: 'doughnut',
+  data: {
+    labels: ['Pending', 'Completed', 'Cancelled'],
+    datasets: [{
+      data: [8, 18, 4]
+    }]
+  }
+});
+</script>
+{% endblock %}

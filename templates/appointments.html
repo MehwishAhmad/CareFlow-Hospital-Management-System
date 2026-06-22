@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+{% set title = 'Appointments' %}
+{% block content %}
+
+<div class="panel">
+  <h2>Add Appointment</h2>
+
+  <form method="POST" class="grid-form">
+    <select name="patient_id" required>
+      {% for p in patients %}
+      <option value="{{ p.id }}">{{ p.name }}</option>
+      {% endfor %}
+    </select>
+
+    <select name="doctor_id" required>
+      {% for d in doctors %}
+      <option value="{{ d.id }}">{{ d.name }} - {{ d.specialization }}</option>
+      {% endfor %}
+    </select>
+
+    <input type="date" name="appointment_date" required>
+    <input type="time" name="appointment_time" required>
+
+    <select name="status">
+      <option value="Pending">Pending</option>
+      <option value="Completed">Completed</option>
+      <option value="Cancelled">Cancelled</option>
+    </select>
+
+    <button type="submit">Add Appointment</button>
+  </form>
+</div>
+
+<div class="panel">
+  <h2>Appointment List</h2>
+
+  <table>
+    <tr>
+      <th>Patient</th>
+      <th>Doctor</th>
+      <th>Date</th>
+      <th>Time</th>
+      <th>Status</th>
+      <th>Fee</th>
+      <th>Action</th>
+    </tr>
+
+    {% for a in appointments %}
+    <tr>
+      <td>{{ a.patient_name }}</td>
+      <td>{{ a.doctor_name }}</td>
+      <td>{{ a.appointment_date }}</td>
+      <td>{{ a.appointment_time }}</td>
+
+      <td>
+       <form method="POST" action="{{ url_for('update_appointment_status', id=a.id) }}" style="display:flex; gap:6px;">
+          <select name="status">
+            <option value="Pending" {% if a.status == 'Pending' %}selected{% endif %}>Pending</option>
+            <option value="Completed" {% if a.status == 'Completed' %}selected{% endif %}>Completed</option>
+            <option value="Cancelled" {% if a.status == 'Cancelled' %}selected{% endif %}>Cancelled</option>
+          </select>
+          <button type="submit">Update</button>
+        </form>
+      </td>
+
+      <td>{{ a.fee }}</td>
+
+      <td>
+        <a class="delete" href="{{ url_for('delete_item', table='appointments', item_id=a.id) }}">Delete</a>
+      </td>
+    </tr>
+    {% endfor %}
+  </table>
+</div>
+
+{% endblock %}

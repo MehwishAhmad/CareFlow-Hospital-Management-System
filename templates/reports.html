@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% set title = 'Reports' %}
+{% block content %}
+<div class="panel">
+  <h2>Daily Revenue Report</h2>
+  <table>
+    <tr><th>Date</th><th>Total Appointments</th><th>Revenue</th></tr>
+    {% for r in reports %}
+    <tr><td>{{ r.appointment_date }}</td><td>{{ r.total_appointments }}</td><td>PKR {{ r.revenue }}</td></tr>
+    {% endfor %}
+  </table>
+</div>
+{% endblock %}
